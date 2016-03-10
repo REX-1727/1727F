@@ -145,7 +145,7 @@ void velocityPIDControl(void *parameters)
 			if(integral > 50/params.kI)
 				integral = 50/params.kI;
 
-			if(error == 0)
+			if(abs(error) < 200)
 				integral = 0;
 
 			previousError = error;

@@ -72,8 +72,9 @@ void initialize() {
 	rightFlywheelEncoder = encoderInit(5,6,false);
 	upperIntakeEncoder = encoderInit(5,6,false);
 
-	pidParams left = {NULL,getLVel,getLPower,-1,0.0005,0,0.035,{5, -8, 0, 0}};
-	pidParams right ={NULL,getRVel,getRPower,-1,0.0005,0,0.035,{-7, 9, 0, 0}};
+
+	pidParams left = {NULL,getLVel,getLPower,-1,0.00085,0,0.075,{5, -8, 0, 0}};
+	pidParams right ={NULL,getRVel,getRPower,-1,0.00085,0,0.075,{-7, 9, 0, 0}};
 
 	lcdInit(uart1);
 
@@ -90,4 +91,5 @@ void initialize() {
 	taskSuspend(powerListener_task);
 	taskSuspend(joystick_task);
 	taskSuspend(drive_task);
+	gyro = gyroInit(2,0);
 }

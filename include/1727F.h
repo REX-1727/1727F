@@ -75,4 +75,6 @@ Encoder leftFlywheelEncoder;
 Encoder rightFlywheelEncoder;
 
 Encoder upperIntakeEncoder;
+
+Gyro gyro;
 #endif /* _1727B_H_ */
