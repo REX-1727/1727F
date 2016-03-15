@@ -73,8 +73,8 @@ void initialize() {
 	upperIntakeEncoder = encoderInit(5,6,false);
 
 
-	pidParams left = {NULL,getLVel,getLPower,-1,0.00085,0,0.075,{5, -8, 0, 0}};
-	pidParams right ={NULL,getRVel,getRPower,-1,0.00085,0,0.075,{-7, 9, 0, 0}};
+	pidParams left = {getLVel,getLPower,-1,0.00085,0,0.075,{5, -8, 0, 0}};
+	pidParams right ={getRVel,getRPower,-1,0.00085,0,0.075,{-7, 9, 0, 0}};
 
 	lcdInit(uart1);
 
@@ -91,5 +91,6 @@ void initialize() {
 	taskSuspend(powerListener_task);
 	taskSuspend(joystick_task);
 	taskSuspend(drive_task);
-	gyro = gyroInit(2,0);
+	gyro = gyroInit(2,196);
+	imeInitializeAll();
 }

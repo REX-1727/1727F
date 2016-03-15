@@ -19,6 +19,10 @@
 #define LOWER_INTAKE	1
 #define UPPER_INTAKE	6
 
+#define RF_ENCODER		0
+#define LF_ENCODER		1
+#define RB_ENCODER		2
+#define LB_ENCODER		3
 
 #define FLYWHEEL_CIRCUMFERENCE (5*3.1415926535)
 
@@ -37,7 +41,7 @@ typedef struct flywheel
 	pidParams parameters;
 }flywheel;
 
-void flywheelInit(flywheel aFlywheel,int (*input)(), int (*target)(), float kP, float kI, float kD, int outputs[4]);
+void flywheelInit(flywheel aFlywheel,float (*input)(), float (*target)(), float kP, float kI, float kD, int outputs[4]);
 
 void velocityReader(void *ignore);
 
@@ -45,12 +49,25 @@ void powerListener(void *params);
 
 void driveControl(void *params);
 
-int getRPower();
+float gyroTarget;
 
-int getLPower();
+float getRPower();
 
-int getRVel();
-int getLVel();
+float getLPower();
+
+float getRVel();
+
+float getLVel();
+
+float getGyro();
+
+float getGyroTarget();
+
+void setGyroTarget(float target);
+
+void driveStraight(unsigned long time, float equilibriumSpeed);
+
+void strafeStraight(unsigned long time, float equilibriumSpeed);
 
 bool twoJoysticks;
 

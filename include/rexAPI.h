@@ -114,9 +114,8 @@ joy partner;
  */
 typedef struct pidParams
 {
-	void *ignore;
-	int	(*input)();
-	int	(*target)();
+	float (*input)();
+	float (*target)();
 	int timeOut;
 	float kP;
 	float kI;
@@ -152,6 +151,49 @@ void positionPIDControl(void *parameters);
  * @param kD Derivative constant.
  */
 void velocityPIDControl( void *ignore);
+
+/*
+ * PID parameter structure.
+ */
+typedef struct pidParams_raw
+{
+	float (*input)();
+	float (*target)();
+	int timeOut;
+	float kP;
+	float kI;
+	float kD;
+	float *outputs;
+
+}pidParams_raw;
+
+/*
+ * Positional version of a PID loop, make sure that input and target values are sensor positions
+ * not changes in sensor position.
+ *
+ * @param input Function which returns the current sensor feedback value.
+ * @param target Function which returns the current target value.
+ * @param timeOut Time, in milliseconds, for which the pid will be active.
+ * @param outputs Array of output motors. If reversed, port number should be negative.
+ * @param kP Proportional constant.
+ * @param kI Integral constant.
+ * @param kD Derivative constant.
+ */
+void positionPIDControl_raw(void *parameters);
+
+/*
+ * Velocity version of a PID loop, make sure that input and target values are sensor velocities
+ * not sensor positions.
+ *
+ * @param input Function which returns the current sensor feedback value .
+ * @param target Function which returns the current target value.
+ * @param timeOut Time, in milliseconds, for which the pid will be active.
+ * @param outputs Array of output motors. If reversed, port number should be negative.
+ * @param kP Proportional constant.
+ * @param kI Integral constant.
+ * @param kD Derivative constant.
+ */
+void velocityPIDControl_raw( void *ignore);
 
 /*
  * Motor init helper function which uses the lcd to set a motor output function.

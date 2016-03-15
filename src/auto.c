@@ -52,6 +52,14 @@
  */
 
 void autonomous() {
+
+	taskSuspend(leftFlywheel_task);
+	taskSuspend(rightFlywheel_task);
+	taskSuspend(velocity_task);
+	taskSuspend(powerListener_task);
+	taskSuspend(joystick_task);
+	taskSuspend(drive_task);
+
 	taskResume(velocity_task);
 	taskResume(leftFlywheel_task);
 	taskResume(rightFlywheel_task);
@@ -59,10 +67,10 @@ void autonomous() {
 	rightFlywheel.variables.power =26.5;
 	rightFlywheel.variables.powerRaw = ((rightFlywheel.variables.power))*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 	leftFlywheel.variables.powerRaw = ((leftFlywheel.variables.power))*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	delay(5000);
+	delay(3000);
 	motorSet(LOWER_INTAKE,-127);
 	motorSet(UPPER_INTAKE,-127);
-	delay(8000);
+	delay(4000);
 	taskSuspend(velocity_task);
 	taskSuspend(leftFlywheel_task);
 	taskSuspend(rightFlywheel_task);
@@ -71,5 +79,6 @@ void autonomous() {
 	rightFlywheel.variables.powerRaw =0;
 	leftFlywheel.variables.powerRaw = 0;
 
+	driveStraight(3,100);
 
 }
