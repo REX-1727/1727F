@@ -53,31 +53,28 @@
 
 void autonomous() {
 
-	taskSuspend(leftFlywheel_task);
-	taskSuspend(rightFlywheel_task);
+	taskSuspend(shooter_task);
 	taskSuspend(velocity_task);
 	taskSuspend(powerListener_task);
 	taskSuspend(joystick_task);
 	taskSuspend(drive_task);
 
 	taskResume(velocity_task);
-	taskResume(leftFlywheel_task);
-	taskResume(rightFlywheel_task);
-	leftFlywheel.variables.power =26.5;
+	taskResume(shooter_task);
+	shooter.variables.power =26.5;
 	rightFlywheel.variables.power =26.5;
 	rightFlywheel.variables.powerRaw = ((rightFlywheel.variables.power))*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	leftFlywheel.variables.powerRaw = ((leftFlywheel.variables.power))*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	shooter.variables.powerRaw = ((shooter.variables.power))*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 	delay(3000);
 	motorSet(LOWER_INTAKE,-127);
 	motorSet(UPPER_INTAKE,-127);
 	delay(4000);
 	taskSuspend(velocity_task);
-	taskSuspend(leftFlywheel_task);
-	taskSuspend(rightFlywheel_task);
-	leftFlywheel.variables.power =0;
+	taskSuspend(shooter_task);
+	shooter.variables.power =0;
 	rightFlywheel.variables.power =0;
 	rightFlywheel.variables.powerRaw =0;
-	leftFlywheel.variables.powerRaw = 0;
+	shooter.variables.powerRaw = 0;
 
 	driveStraight(3,100);
 

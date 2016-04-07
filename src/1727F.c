@@ -24,20 +24,17 @@ void flywheelInit(flywheel aFlywheel,float (*input)(),
 
 void velocityReader(void *ignore)
 {
-	encoderReset(leftFlywheelEncoder);
-	encoderReset(rightFlywheelEncoder);
+	encoderReset(shooterEncoder);
 	unsigned long startTime = 0;
 	while(true)
 	{
 		startTime = millis();
-		leftFlywheel.variables.velocityRaw = -encoderGet(leftFlywheelEncoder)*1000/20;
-		rightFlywheel.variables.velocityRaw = -encoderGet(rightFlywheelEncoder)*1000/20;
-		leftFlywheel.variables.velocity = (leftFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
+		shooter.variables.velocityRaw = -encoderGet(shooterEncoder)*1000/20;
+		shooter.variables.velocity = (shooter.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		rightFlywheel.variables.velocity = (rightFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
-		encoderReset(leftFlywheelEncoder);
-		encoderReset(rightFlywheelEncoder);
+		encoderReset(shooterEncoder);
 
-		printf("%f\n\r",leftFlywheel.variables.velocity);
+		printf("%f\n\r",shooter.variables.velocity);
 		taskDelayUntil(&startTime, MOTOR_REFRESH_TIME);
 	}
 }
@@ -53,64 +50,64 @@ void powerListener(void *params)
 		{
 			if(main.rightDpad.axisValue == JOY_UP)
 			{
-				leftFlywheel.variables.power++;
+				shooter.variables.power++;
 				rightFlywheel.variables.power++;
 				taskDelay(200);
 			}
 			else if(main.rightDpad.axisValue == JOY_DOWN)
 			{
-				leftFlywheel.variables.power--;
+				shooter.variables.power--;
 				rightFlywheel.variables.power--;
 				taskDelay(200);
 			}
 			else if(main.rightDpad.axisValue == JOY_RIGHT)
 			{
-				leftFlywheel.variables.power += .5;
+				shooter.variables.power += .5;
 				rightFlywheel.variables.power += .5;
 				taskDelay(200);
 			}
 			else if(main.rightDpad.axisValue == JOY_LEFT)
 			{
-				leftFlywheel.variables.power -= .5;
+				shooter.variables.power -= .5;
 				rightFlywheel.variables.power -= .5;
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_UP)
 			{
-				leftFlywheel.variables.power =26.5;
+				shooter.variables.power =26.5;
 				rightFlywheel.variables.power =26.5;
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_RIGHT)
 			{
-				leftFlywheel.variables.power =22;
+				shooter.variables.power =22;
 				rightFlywheel.variables.power =22;
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_LEFT)
 			{
-				leftFlywheel.variables.power =20;
+				shooter.variables.power =20;
 				rightFlywheel.variables.power =20;
 				printf("debug");
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_DOWN)
 			{
-				leftFlywheel.variables.power =0;
+				shooter.variables.power =0;
 				rightFlywheel.variables.power =0;
 				taskDelay(200);
 			}
-			if(leftFlywheel.variables.power<0)
+			if(shooter.variables.power<0)
 			{
-				leftFlywheel.variables.power =0;
+				shooter.variables.power =0;
 				rightFlywheel.variables.power =0;
 				taskDelay(200);
 			}
 
 			rightFlywheel.variables.powerRaw = (rightFlywheel.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-			leftFlywheel.variables.powerRaw = (leftFlywheel.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+			shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 
-			lcdPrint(uart1,1,"%f",leftFlywheel.variables.power);
+			lcdPrint(uart1,1,"%f",shooter.variables.power);
 			//printf("%f /n /r", leftFlywheel.variables.power);
 			taskDelay(20);
 
@@ -120,20 +117,13 @@ void powerListener(void *params)
 
 void driveControl(void *params)
 {
-	int rightBack;
-	int leftBack;
-	int rightFront;
-	int leftFront;
+
 	while(true)
 	{
-		rightBack = main.leftVertical.axisValue + main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		leftBack = -main.leftVertical.axisValue + main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		rightFront = main.leftVertical.axisValue - main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		leftFront = main.leftVertical.axisValue + main.leftHorizontal.axisValue + main.rightHorizontal.axisValue;
-		motorSet(RB, -rightBack);
-		motorSet(LB, leftBack);
-		motorSet(RF, -rightFront);
-		motorSet(LF, leftFront);
+		motorSet(RB, main.rightVertical.axisValue);
+		motorSet(LB, main.leftVertical.axisValue);
+		motorSet(RF, main.rightVertical.axisValue);
+		motorSet(LF, main.leftVertical.axisValue);
 
 		if(main.rightBumper.axisValue == JOY_UP)
 		{
@@ -169,27 +159,16 @@ void driveControl(void *params)
 //PID HELPERS
 
 
-float getRPower()
-{
-	return rightFlywheel.variables.powerRaw;
-}
-
-
 float gyroTarget = 0;
 
-float getLPower()
+float getPower()
 {
-	return (leftFlywheel.variables.powerRaw);
+	return (shooter.variables.powerRaw);
 }
 
-float getRVel()
+float getVel()
 {
-	return (rightFlywheel.variables.velocityRaw);
-}
-
-float getLVel()
-{
-	return (leftFlywheel.variables.velocityRaw);
+	return (shooter.variables.velocityRaw);
 }
 
 float getGyro()

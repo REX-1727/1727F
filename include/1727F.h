@@ -12,17 +12,15 @@
 #include "rexAPI.h"
 #include "math.h"
 
-#define RF				4
-#define LF				3
+#define RF				2
+#define LF				8
 #define RB				2
 #define LB				10
+#define RM				1
+#define LM				8
 #define LOWER_INTAKE	1
-#define UPPER_INTAKE	6
+#define UPPER_INTAKE	4
 
-#define RF_ENCODER		0
-#define LF_ENCODER		1
-#define RB_ENCODER		2
-#define LB_ENCODER		3
 
 #define FLYWHEEL_CIRCUMFERENCE (5*3.1415926535)
 
@@ -51,13 +49,9 @@ void driveControl(void *params);
 
 float gyroTarget;
 
-float getRPower();
+float getPower();
 
-float getLPower();
-
-float getRVel();
-
-float getLVel();
+float getVel();
 
 float getGyro();
 
@@ -73,11 +67,9 @@ bool twoJoysticks;
 
 flywheel rightFlywheel;
 
-flywheel leftFlywheel;
+flywheel shooter;
 
-TaskHandle rightFlywheel_task;
-
-TaskHandle leftFlywheel_task;
+TaskHandle shooter_task;
 
 TaskHandle powerListener_task;
 
@@ -87,11 +79,7 @@ TaskHandle drive_task;
 
 TaskHandle joystick_task;
 
-Encoder leftFlywheelEncoder;
-
-Encoder rightFlywheelEncoder;
-
-Encoder upperIntakeEncoder;
+Encoder shooterEncoder;
 
 Gyro gyro;
 #endif /* _1727B_H_ */

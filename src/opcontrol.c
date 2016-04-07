@@ -54,8 +54,7 @@
  */
 void operatorControl() {
 	twoJoysticks = isJoystickConnected(2);//check for second joystick
-	taskResume(leftFlywheel_task);
-	taskResume(rightFlywheel_task);
+	taskResume(shooter_task);
 	taskResume(velocity_task);
 	taskResume(powerListener_task);
 	taskResume(joystick_task);
