@@ -131,7 +131,8 @@ void velocityPIDControl(void *parameters)
 	unsigned long startTime = millis();
 	unsigned long loopTime;
 	float output = 0;
-	pidParams params = *((pidParams*)parameters);
+	pidParams params;
+	params = *((pidParams*)parameters);
 
 	if(params.timeOut>0)
 	{
@@ -205,7 +206,7 @@ void velocityPIDControl(void *parameters)
 				else
 					motorSet(abs(*motor), output*(*motor/abs(*motor)));
 			}
-
+			printf("%f\n\r",output);
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}

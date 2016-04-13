@@ -76,6 +76,4 @@ void autonomous() {
 	rightFlywheel.variables.powerRaw =0;
 	shooter.variables.powerRaw = 0;
 
-	driveStraight(3,100);
-
 }

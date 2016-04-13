@@ -29,12 +29,12 @@ void velocityReader(void *ignore)
 	while(true)
 	{
 		startTime = millis();
-		shooter.variables.velocityRaw = -encoderGet(shooterEncoder)*1000/20;
+		shooter.variables.velocityRaw = encoderGet(shooterEncoder)*1000/20;
 		shooter.variables.velocity = (shooter.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		rightFlywheel.variables.velocity = (rightFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		encoderReset(shooterEncoder);
 
-		printf("%f\n\r",shooter.variables.velocity);
+		//printf("%f\n\r",shooter.variables.velocity);
 		taskDelayUntil(&startTime, MOTOR_REFRESH_TIME);
 	}
 }
@@ -120,10 +120,12 @@ void driveControl(void *params)
 
 	while(true)
 	{
-		motorSet(RB, main.rightVertical.axisValue);
-		motorSet(LB, main.leftVertical.axisValue);
-		motorSet(RF, main.rightVertical.axisValue);
+		motorSet(RB, -main.rightVertical.axisValue);
+		motorSet(LB, -main.leftVertical.axisValue);
+		motorSet(RF, -main.rightVertical.axisValue);
 		motorSet(LF, main.leftVertical.axisValue);
+		motorSet(RM, main.rightVertical.axisValue);
+		motorSet(LM, main.leftVertical.axisValue);
 
 		if(main.rightBumper.axisValue == JOY_UP)
 		{
@@ -139,11 +141,11 @@ void driveControl(void *params)
 		}
 		if(main.leftBumper.axisValue == JOY_UP)
 		{
-			motorSet(UPPER_INTAKE, -127);
+			motorSet(UPPER_INTAKE, 127);
 		}
 		else if(main.leftBumper.axisValue == JOY_DOWN)
 		{
-			motorSet(UPPER_INTAKE, 127);
+			motorSet(UPPER_INTAKE, -127);
 		}
 		else
 		{
