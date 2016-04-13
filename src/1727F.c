@@ -74,7 +74,7 @@ void powerListener(void *params)
 			}
 			else if(main.leftDpad.axisValue == JOY_UP)
 			{
-				shooter.variables.power =26.5;
+				shooter.variables.power =40;
 				rightFlywheel.variables.power =26.5;
 				taskDelay(200);
 			}

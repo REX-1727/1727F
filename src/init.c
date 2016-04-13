@@ -69,7 +69,7 @@ void initialize() {
 	shooterEncoder = encoderInit(3,4,true);
 
 
-	pidParams shooterParams = {getVel,getPower,-1,0.00085,0,0.075,{5, -6, 9, -3}};
+	pidParams shooterParams = {getVel,getPower,-1,0.00085,0,0,{5, -6, 9, -3}};
 
 	lcdInit(uart1);
 
@@ -78,12 +78,10 @@ void initialize() {
 	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-	printf("debug");
 	taskSuspend(shooter_task);
 	taskSuspend(velocity_task);
 	taskSuspend(powerListener_task);
 	taskSuspend(joystick_task);
 	taskSuspend(drive_task);
-	gyro = gyroInit(2,196);
 	imeInitializeAll();
 }
