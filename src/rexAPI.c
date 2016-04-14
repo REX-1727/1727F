@@ -132,6 +132,7 @@ void velocityPIDControl(void *parameters)
 	unsigned long loopTime;
 	float output = 0;
 	pidParams params;
+	params.outputs = malloc((*((pidParams*)parameters)).outputNumber*sizeof(int));
 	params = *((pidParams*)parameters);
 
 	if(params.timeOut>0)

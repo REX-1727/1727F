@@ -39,7 +39,14 @@ typedef struct flywheel
 	pidParams parameters;
 }flywheel;
 
-void flywheelInit(flywheel aFlywheel,float (*input)(), float (*target)(), float kP, float kI, float kD, int outputs[4]);
+void flywheelInit(flywheel aFlywheel,
+		float (*input)(),
+		float (*target)(),
+		float kP,
+		float kI,
+		float kD,
+		int *outputs,
+		int outputNumber);
 
 void velocityReader(void *ignore);
 

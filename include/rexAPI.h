@@ -120,8 +120,8 @@ typedef struct pidParams
 	float kP;
 	float kI;
 	float kD;
-	int outputs[4];
-
+	int *outputs;
+	int outputNumber;
 }pidParams;
 
 /*

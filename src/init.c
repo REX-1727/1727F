@@ -64,12 +64,18 @@ int outputs1[4] = {-5, 6, -9, 3};
 
 
 void initialize() {
-	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs);
+	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs,4);
 
 	shooterEncoder = encoderInit(3,4,false);
 
 
-	pidParams shooterParams = {getVel,getPower,-1,0.00085,0,0,{-5, 6, -9, 3}};
+	pidParams shooterParams = {shooter.parameters.input
+			,shooter.parameters.target
+			,shooter.parameters.timeOut
+			,shooter.parameters.kP
+			,shooter.parameters.kI
+			,shooter.parameters.kD
+			,shooter.parameters.outputs};
 
 	lcdInit(uart1);
 

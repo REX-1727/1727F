@@ -12,7 +12,8 @@ void flywheelInit(flywheel aFlywheel,float (*input)(),
 		float kP,
 		float kI,
 		float kD,
-		int outputs[4])
+		int *outputs,
+		int outputNumber)
 {
 	aFlywheel.parameters.input = input;
 	aFlywheel.parameters.target = target;
@@ -20,6 +21,8 @@ void flywheelInit(flywheel aFlywheel,float (*input)(),
 	aFlywheel.parameters.kP = kP;
 	aFlywheel.parameters.kI = kI;
 	aFlywheel.parameters.kD = kD;
+	aFlywheel.parameters.outputs = malloc(outputNumber*sizeof(int));
+	aFlywheel.parameters.outputs = outputs;
 }
 
 void velocityReader(void *ignore)
