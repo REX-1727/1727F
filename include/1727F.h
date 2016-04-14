@@ -22,7 +22,7 @@
 #define UPPER_INTAKE	4
 
 
-#define FLYWHEEL_CIRCUMFERENCE (5*3.1415926535)
+#define FLYWHEEL_CIRCUMFERENCE (5*M_PI)
 
 
 typedef struct pidVars

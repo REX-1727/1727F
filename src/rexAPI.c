@@ -133,7 +133,15 @@ void velocityPIDControl(void *parameters)
 	float output = 0;
 	pidParams params;
 	params.outputs = malloc((*((pidParams*)parameters)).outputNumber*sizeof(int));
-	params = *((pidParams*)parameters);
+	delay(3000);
+	params.input = (*((pidParams*)parameters)).input;
+	params.target = (*((pidParams*)parameters)).target;
+	params.timeOut = (*((pidParams*)parameters)).timeOut;
+	params.kP = (*((pidParams*)parameters)).kP;
+	params.kI = (*((pidParams*)parameters)).kI;
+	params.kD = (*((pidParams*)parameters)).kD;
+	params.outputs = (*((pidParams*)parameters)).outputs;
+	params.outputNumber = (*((pidParams*)parameters)).outputNumber;
 
 	if(params.timeOut>0)
 	{
