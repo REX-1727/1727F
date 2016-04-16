@@ -69,7 +69,7 @@ void initialize() {
 	shooterEncoder = encoderInit(3,4,false);
 
 
-	pidParams shooterParams = {getVel,getPower,-1,0.00085,0,0,{-5, 6, -9, 3}};
+	pidParams shooterParams = {getVel,getPower,-1,0.01,0,0.1,{-5, 6, -9, 3}};
 
 	lcdInit(uart1);
 

@@ -34,7 +34,7 @@ void velocityReader(void *ignore)
 		rightFlywheel.variables.velocity = (rightFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		encoderReset(shooterEncoder);
 
-		//printf("%f\n\r",shooter.variables.velocity);
+		printf("%f\n\r",shooter.variables.velocity);
 		taskDelayUntil(&startTime, MOTOR_REFRESH_TIME);
 	}
 }

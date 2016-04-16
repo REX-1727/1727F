@@ -206,7 +206,7 @@ void velocityPIDControl(void *parameters)
 				else
 					motorSet(abs(*motor), output*(*motor/abs(*motor)));
 			}
-			printf("%f\n\r",output);
+			//printf("%f\n\r",output);
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
