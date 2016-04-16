@@ -74,9 +74,9 @@ void positionPIDControl(void *parameters)
 			{
 				output = 127;
 			}
-			if(output<0)
+			if(output<-127)
 			{
-				output = 0;
+				output = -127;
 			}
 			foreach(int *motor, params.outputs)
 			{
@@ -108,9 +108,9 @@ void positionPIDControl(void *parameters)
 			{
 				output = 127;
 			}
-			if(output<0)
+			if(output<-127)
 			{
-				output = 0;
+				output = -127;
 			}
 
 			foreach(int *motor, params.outputs)
@@ -120,6 +120,7 @@ void positionPIDControl(void *parameters)
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
+	taskDelete(NULL);
 }
 
 void velocityPIDControl(void *parameters)
@@ -210,6 +211,7 @@ void velocityPIDControl(void *parameters)
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
+	taskDelete(NULL);
 }
 
 void positionPIDControl_raw(void *parameters)
@@ -287,6 +289,7 @@ void positionPIDControl_raw(void *parameters)
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
+	taskDelete(NULL);
 }
 
 void velocityPIDControl_raw(void *parameters)
@@ -376,6 +379,7 @@ void velocityPIDControl_raw(void *parameters)
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
+	taskDelete(NULL);
 }
 
 

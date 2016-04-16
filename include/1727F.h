@@ -59,9 +59,17 @@ float getGyroTarget();
 
 void setGyroTarget(float target);
 
-void driveStraight(unsigned long time, float equilibriumSpeed);
+void setTargetForward(int inches);
 
-void strafeStraight(unsigned long time, float equilibriumSpeed);
+void setTargetRotate(int degrees);
+
+int getLeftDriveTarget();
+
+int getRightDriveTarget();
+
+int getLeftDrive();
+
+int getRightDrive();
 
 bool twoJoysticks;
 
@@ -79,7 +87,20 @@ TaskHandle drive_task;
 
 TaskHandle joystick_task;
 
+TaskHandle leftDrive_autonomous_task;
+
+TaskHandle rightDrive_autonomous_task;
+
 Encoder shooterEncoder;
 
+Encoder leftDriveEncoder;
+
+Encoder rightDriveEncoder;
+
 Gyro gyro;
+
+int leftDriveTarget;
+
+int rightDriveTarget;
+
 #endif /* _1727B_H_ */

@@ -76,4 +76,8 @@ void autonomous() {
 	rightFlywheel.variables.powerRaw =0;
 	shooter.variables.powerRaw = 0;
 
+	taskSuspend(leftDrive_autonomous_task);
+	taskSuspend(rightDrive_autonomous_task);
+
+
 }

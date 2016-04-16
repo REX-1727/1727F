@@ -64,12 +64,21 @@ int outputs1[4] = {-5, 6, -9, 3};
 
 
 void initialize() {
+	leftDriveTarget = 0;
+	rightDriveTarget = 0;
 	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs);
 
 	shooterEncoder = encoderInit(3,4,false);
 
+	leftDriveEncoder = encoderInit(1,2,false);
+
+	rightDriveEncoder = encoderInit(5,6,false);
 
 	pidParams shooterParams = {getVel,getPower,-1,0.01,0,0.1,{-5, 6, -9, 3}};
+
+	pidParams leftDriveParams = {getLeftDrive, getLeftDriveTarget, -1, 0, 0, 0, {0, 0, 0, 0}};
+
+	pidParams rightDriveParams = {getRightDrive, getRightDriveTarget, -1, 0, 0, 0, {0, 0, 0, 0}};
 
 	lcdInit(uart1);
 
@@ -79,5 +88,6 @@ void initialize() {
 	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-
+	leftDrive_autonomous_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, &leftDriveParams, TASK_PRIORITY_DEFAULT);
+	rightDrive_autonomous_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, &rightDriveParams, TASK_PRIORITY_DEFAULT);
 }
