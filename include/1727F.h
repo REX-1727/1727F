@@ -63,13 +63,15 @@ void setTargetForward(int inches);
 
 void setTargetRotate(int degrees);
 
-int getLeftDriveTarget();
+float getLeftDriveTarget();
 
-int getRightDriveTarget();
+float getRightDriveTarget();
 
-int getLeftDrive();
+float getLeftDrive();
 
-int getRightDrive();
+float getRightDrive();
+
+void resetDriveTargets();
 
 bool twoJoysticks;
 

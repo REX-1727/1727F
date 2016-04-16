@@ -70,24 +70,24 @@ void initialize() {
 
 	shooterEncoder = encoderInit(3,4,false);
 
-	leftDriveEncoder = encoderInit(1,2,false);
+	leftDriveEncoder = encoderInit(5,6,true);
 
-	rightDriveEncoder = encoderInit(5,6,false);
+	rightDriveEncoder = encoderInit(1,2,false);
 
-	pidParams shooterParams = {getVel,getPower,-1,0.01,0,0.1,{-5, 6, -9, 3}};
+	pidParams shooterParams = {getVel,getPower,-1,0.023,0,0.12,{-5, 6, -9, 3}};
 
-	pidParams leftDriveParams = {getLeftDrive, getLeftDriveTarget, -1, 0, 0, 0, {0, 0, 0, 0}};
+	pidParams leftDriveParams = {getLeftDrive, getLeftDriveTarget, -1, .5, 0, 0.7, {8, -10, 0, 0}};
 
-	pidParams rightDriveParams = {getRightDrive, getRightDriveTarget, -1, 0, 0, 0, {0, 0, 0, 0}};
+	pidParams rightDriveParams = {getRightDrive, getRightDriveTarget, -1, .5, 0, 0.7, {0, 0, -2, 1}};
 
 	lcdInit(uart1);
 
+	leftDrive_autonomous_task = taskCreate(positionPIDControl, TASK_DEFAULT_STACK_SIZE, &leftDriveParams, TASK_PRIORITY_DEFAULT);
+	rightDrive_autonomous_task = taskCreate(positionPIDControl, TASK_DEFAULT_STACK_SIZE, &rightDriveParams, TASK_PRIORITY_DEFAULT);
 	shooter_task = taskCreate(velocityPIDControl, TASK_DEFAULT_STACK_SIZE, &shooterParams, TASK_PRIORITY_DEFAULT);
 	printf("debug");
 	velocity_task = taskCreate(velocityReader, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-	leftDrive_autonomous_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, &leftDriveParams, TASK_PRIORITY_DEFAULT);
-	rightDrive_autonomous_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, &rightDriveParams, TASK_PRIORITY_DEFAULT);
-}
+	}

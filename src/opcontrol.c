@@ -53,6 +53,8 @@
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 void operatorControl() {
+	taskSuspend(leftDrive_autonomous_task);
+	taskSuspend(rightDrive_autonomous_task);
 	twoJoysticks = isJoystickConnected(2);//check for second joystick
 	taskResume(shooter_task);
 	taskResume(velocity_task);

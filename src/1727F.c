@@ -34,7 +34,8 @@ void velocityReader(void *ignore)
 		rightFlywheel.variables.velocity = (rightFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		encoderReset(shooterEncoder);
 
-		printf("%f\n\r",shooter.variables.velocity);
+		//printf("%f\n\r",shooter.variables.velocity);
+
 		taskDelayUntil(&startTime, MOTOR_REFRESH_TIME);
 	}
 }
@@ -74,20 +75,19 @@ void powerListener(void *params)
 			}
 			else if(main.leftDpad.axisValue == JOY_UP)
 			{
-				shooter.variables.power =40;
+				shooter.variables.power =48;
 				rightFlywheel.variables.power =26.5;
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_RIGHT)
 			{
-				shooter.variables.power =22;
+				shooter.variables.power =38.5;
 				rightFlywheel.variables.power =22;
 				taskDelay(200);
 			}
 			else if(main.leftDpad.axisValue == JOY_LEFT)
 			{
-				shooter.variables.power =20;
-				rightFlywheel.variables.power =20;
+				shooter.variables.power =31.5;
 				printf("debug");
 				taskDelay(200);
 			}
@@ -104,7 +104,6 @@ void powerListener(void *params)
 				taskDelay(200);
 			}
 
-			rightFlywheel.variables.powerRaw = (rightFlywheel.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 			shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 
 			lcdPrint(uart1,1,"%f",shooter.variables.power);
@@ -152,6 +151,7 @@ void driveControl(void *params)
 			motorSet(UPPER_INTAKE, 0);
 		}
 
+		printf("%d    %d\r\n",encoderGet(leftDriveEncoder),encoderGet(rightDriveEncoder));
 
 		taskDelay(20);
 	}
@@ -196,31 +196,35 @@ void setTargetForward(int inches)
 
 void setTargetRotate(int degrees)
 {
-	leftDriveTarget += degrees;
-	rightDriveTarget -= degrees;
+	leftDriveTarget += degrees*4.3;
+	rightDriveTarget -= degrees*4.3;
 }
 
-int getLeftDriveTarget()
+float getLeftDriveTarget()
 {
 	return leftDriveTarget;
 }
 
-int getRightDriveTarget()
+float getRightDriveTarget()
 {
 	return rightDriveTarget;
 }
 
-int getLeftDrive()
+float getLeftDrive()
 {
 	return encoderGet(leftDriveEncoder);
 }
 
-int getRightDrive()
+float  getRightDrive()
 {
 	return encoderGet(rightDriveEncoder);
 }
 
-
+void resetDriveTargets()
+{
+	leftDriveTarget=0;
+	rightDriveTarget=0;
+}
 
 
 //Auton Functions
