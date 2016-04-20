@@ -127,6 +127,8 @@ Encoder rightDriveEncoder;
 
 Gyro gyro;
 
+Ultrasonic loadChecker;
+
 int leftDriveTarget;
 
 int rightDriveTarget;

@@ -106,7 +106,7 @@ void powerListener(void *params)
 
 			shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 
-			lcdPrint(uart1,1,"%f",shooter.variables.power);
+			//lcdPrint(uart1,1,"%f",shooter.variables.power);
 			//printf("%f /n /r", leftFlywheel.variables.power);
 			taskDelay(20);
 
@@ -151,7 +151,7 @@ void intakeControl(void *params)
 		{
 			motorSet(UPPER_INTAKE, 0);
 		}
-		printf("%d\r\n",analogReadCalibrated(1));
+		printf("%d\r\n",ultrasonicGet(loadChecker));
 		delay(20);
 	}
 }
@@ -176,14 +176,14 @@ void driveControl(void *params)
 
 bool isLoaded()
 {
-	return false;
+	return (ultrasonicGet(loadChecker)<10);
 }
 
 void loadBall(int maxLoadTime)
 {
 	unsigned long startTime = millis();
 
-	while(!ballLoaded || millis()< startTime+maxLoadTime)
+	while(!ballLoaded && millis()< startTime+maxLoadTime)
 	{
 		motorSet(LOWER_INTAKE, -127);
 		motorSet(UPPER_INTAKE, 127);
@@ -197,7 +197,7 @@ void loadBall(int maxLoadTime)
 void fireBall(int maxLoadTime, int maxFireTime)
 {
 	unsigned long startTime = millis();
-	while(ballLoaded || millis()<startTime+maxFireTime)
+	while(ballLoaded && millis()<startTime+maxFireTime)
 	{
 		motorSet(LOWER_INTAKE, -127);
 		motorSet(UPPER_INTAKE, 127);
@@ -306,15 +306,16 @@ int selectAuton()
 			delay(500);
 		}
 
-		else if(lcdReadButtons(uart1) == 2)
-		{
-			return currentAuton;
-		}
-
 		else if(lcdReadButtons(uart1) == 4)
 		{
 			currentAuton +=1;
 			delay(500);
+		}
+
+		else if(lcdReadButtons(uart1) == 2)
+		{
+			printf("debug");
+			return currentAuton;
 		}
 
 		if(currentAuton < 0)

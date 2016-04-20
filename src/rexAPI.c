@@ -209,7 +209,7 @@ void velocityPIDControl(void *parameters)
 					motorSet(abs(*motor), output*(*motor/abs(*motor)));
 			}
 			//printf("%f\n\r",output);
-			lcdPrint(uart1,2,"%f",output);
+			//lcdPrint(uart1,2,"%f",output);
 			taskDelayUntil(&loopTime,MOTOR_REFRESH_TIME);
 		}
 	}
