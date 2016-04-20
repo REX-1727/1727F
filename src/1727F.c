@@ -49,49 +49,49 @@ void powerListener(void *params)
 	{
 		while(true)
 		{
-			if(main.rightDpad.axisValue == JOY_UP)
+			if(partner.rightDpad.axisValue == JOY_UP)
 			{
 				shooter.variables.power++;
 				rightFlywheel.variables.power++;
 				taskDelay(200);
 			}
-			else if(main.rightDpad.axisValue == JOY_DOWN)
+			else if(partner.rightDpad.axisValue == JOY_DOWN)
 			{
 				shooter.variables.power--;
 				rightFlywheel.variables.power--;
 				taskDelay(200);
 			}
-			else if(main.rightDpad.axisValue == JOY_RIGHT)
+			else if(partner.rightDpad.axisValue == JOY_RIGHT)
 			{
 				shooter.variables.power += .5;
 				rightFlywheel.variables.power += .5;
 				taskDelay(200);
 			}
-			else if(main.rightDpad.axisValue == JOY_LEFT)
+			else if(partner.rightDpad.axisValue == JOY_LEFT)
 			{
 				shooter.variables.power -= .5;
 				rightFlywheel.variables.power -= .5;
 				taskDelay(200);
 			}
-			else if(main.leftDpad.axisValue == JOY_UP)
+			else if(partner.leftDpad.axisValue == JOY_UP)
 			{
 				shooter.variables.power =48;
 				rightFlywheel.variables.power =26.5;
 				taskDelay(200);
 			}
-			else if(main.leftDpad.axisValue == JOY_RIGHT)
+			else if(partner.leftDpad.axisValue == JOY_RIGHT)
 			{
 				shooter.variables.power =38.5;
 				rightFlywheel.variables.power =22;
 				taskDelay(200);
 			}
-			else if(main.leftDpad.axisValue == JOY_LEFT)
+			else if(partner.leftDpad.axisValue == JOY_LEFT)
 			{
 				shooter.variables.power =31.5;
 				printf("debug");
 				taskDelay(200);
 			}
-			else if(main.leftDpad.axisValue == JOY_DOWN)
+			else if(partner.leftDpad.axisValue == JOY_DOWN)
 			{
 				shooter.variables.power =0;
 				rightFlywheel.variables.power =0;
@@ -114,19 +114,20 @@ void powerListener(void *params)
 	}
 }
 
-void driveControl(void *params)
+void intakeControl(void *params)
 {
-
+	bool intakeFlag;
 	while(true)
 	{
-		motorSet(RB, -main.rightVertical.axisValue);
-		motorSet(LB, -main.leftVertical.axisValue);
-		motorSet(RF, -main.rightVertical.axisValue);
-		motorSet(LF, main.leftVertical.axisValue);
-		motorSet(RM, main.rightVertical.axisValue);
-		motorSet(LM, main.leftVertical.axisValue);
-
-		if(main.rightBumper.axisValue == JOY_UP)
+		if(main.rightDpad.axisValue == JOY_UP)
+		{
+			intakeFlag = true;
+		}
+		if(main.rightDpad.axisValue == JOY_DOWN)
+		{
+			intakeFlag = false;
+		}
+		if(main.rightBumper.axisValue == JOY_UP || intakeFlag)
 		{
 			motorSet(LOWER_INTAKE, -127);
 		}
@@ -138,7 +139,7 @@ void driveControl(void *params)
 		{
 			motorSet(LOWER_INTAKE, 0);
 		}
-		if(main.leftBumper.axisValue == JOY_UP)
+		if(main.leftBumper.axisValue == JOY_UP || intakeFlag)
 		{
 			motorSet(UPPER_INTAKE, 127);
 		}
@@ -150,8 +151,22 @@ void driveControl(void *params)
 		{
 			motorSet(UPPER_INTAKE, 0);
 		}
+	}
+}
 
-		printf("%d    %d\r\n",encoderGet(leftDriveEncoder),encoderGet(rightDriveEncoder));
+void driveControl(void *params)
+{
+
+
+	while(true)
+	{
+		motorSet(RB, -main.rightVertical.axisValue);
+		motorSet(LB, -main.leftVertical.axisValue);
+		motorSet(RF, -main.rightVertical.axisValue);
+		motorSet(LF, main.leftVertical.axisValue);
+		motorSet(RM, main.rightVertical.axisValue);
+		motorSet(LM, main.leftVertical.axisValue);
+
 
 		taskDelay(20);
 	}
@@ -226,6 +241,54 @@ void resetDriveTargets()
 	rightDriveTarget=0;
 }
 
+int selectAuton()
+{
+	int currentAuton = 0;
 
-//Auton Functions
+	while(true)
+	{
+		switch(currentAuton)
+		{
+		case BLUE_FAR_SIDE_AUTONOMOUS:
+			lcdPrint(uart1,1,"BLUE far side");
+			break;
+		case BLUE_NEAR_SIDE_AUTONOMOUS:
+			lcdPrint(uart1,1,"BLUE near side");
+			break;
+		case RED_FAR_SIDE_AUTONOMOUS:
+			lcdPrint(uart1,1,"RED far side");
+			break;
+		case RED_NEAR_SIDE_AUTONOMOUS:
+			lcdPrint(uart1,1,"RED near side");
+			break;
+		case NO_AUTONOMOUS:
+			lcdPrint(uart1,1,"NO AUTON");
+			break;
+		}
+
+		if(lcdReadButtons(uart1) == 1)
+		{
+			currentAuton -= 1;
+			delay(100);
+		}
+
+		else if(lcdReadButtons(uart1) == 2)
+		{
+			return currentAuton;
+		}
+
+		else if(lcdReadButtons(uart1) == 4)
+		{
+			currentAuton +=1;
+			delay(100);
+		}
+
+		if(currentAuton < 0)
+			currentAuton = 0;
+
+		else if(currentAuton > 4)
+			currentAuton = 4;
+	}
+	return 4;
+}
 

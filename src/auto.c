@@ -82,10 +82,7 @@ void autonomous() {
 //	shooter.variables.powerRaw = 0;
 
 //	setTargetForward(36);
-	setTargetRotate(90);
-	printf("target Set");
 
-	delay(15000);
 
 	taskSuspend(leftDrive_autonomous_task);
 	taskSuspend(rightDrive_autonomous_task);
