@@ -61,6 +61,7 @@ void operatorControl() {
 	taskResume(powerListener_task);
 	taskResume(joystick_task);
 	taskResume(drive_task);
+	taskResume(intake_task);
 	while (1) {
 		delay(20);
 	}

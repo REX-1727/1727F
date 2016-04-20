@@ -58,11 +58,12 @@ void autonomous() {
 	resetDriveTargets();
 	taskResume(leftDrive_autonomous_task);
 	taskResume(rightDrive_autonomous_task);
-	taskSuspend(shooter_task);
-	taskSuspend(velocity_task);
+	taskResume(shooter_task);
+	taskResume(velocity_task);
 	taskSuspend(powerListener_task);
 	taskSuspend(joystick_task);
 	taskSuspend(drive_task);
+	taskSuspend(intake_task);
 
 //	taskResume(velocity_task);
 //	taskResume(shooter_task);

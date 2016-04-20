@@ -65,9 +65,9 @@ float getGyroTarget();
 
 void setGyroTarget(float target);
 
-void setTargetForward(int inches);
+void setTargetForward(float inches);
 
-void setTargetRotate(int degrees);
+void setTargetRotate(float degrees);
 
 float getLeftDriveTarget();
 
@@ -78,6 +78,24 @@ float getLeftDrive();
 float getRightDrive();
 
 void resetDriveTargets();
+
+void intakeControl(void *params);
+
+int selectAuton();
+
+void blueFarSide();
+
+void blueNearSide();
+
+void redFarSide();
+
+void redNearSide();
+
+bool isLoaded();
+
+void loadBall(int maxLoadTime);
+
+void fireBall(int maxLoadTime, int maxFireTime);
 
 bool twoJoysticks;
 
@@ -99,6 +117,8 @@ TaskHandle leftDrive_autonomous_task;
 
 TaskHandle rightDrive_autonomous_task;
 
+TaskHandle intake_task;
+
 Encoder shooterEncoder;
 
 Encoder leftDriveEncoder;
@@ -110,5 +130,9 @@ Gyro gyro;
 int leftDriveTarget;
 
 int rightDriveTarget;
+
+int selectedAuton;
+
+bool ballLoaded;
 
 #endif /* _1727B_H_ */

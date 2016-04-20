@@ -64,6 +64,12 @@ int outputs1[4] = {-5, 6, -9, 3};
 
 
 void initialize() {
+	lcdInit(uart1);
+
+	lcdClear(uart1);
+	printf("debug");
+	selectedAuton = selectAuton();
+	printf("debug");
 	leftDriveTarget = 0;
 	rightDriveTarget = 0;
 	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs);
@@ -80,7 +86,7 @@ void initialize() {
 
 	pidParams rightDriveParams = {getRightDrive, getRightDriveTarget, -1, .5, 0, 0.7, {0, 0, -2, 1}};
 
-	lcdInit(uart1);
+
 
 	leftDrive_autonomous_task = taskCreate(positionPIDControl, TASK_DEFAULT_STACK_SIZE, &leftDriveParams, TASK_PRIORITY_DEFAULT);
 	rightDrive_autonomous_task = taskCreate(positionPIDControl, TASK_DEFAULT_STACK_SIZE, &rightDriveParams, TASK_PRIORITY_DEFAULT);
@@ -90,4 +96,6 @@ void initialize() {
 	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-	}
+	intake_task = taskCreate(intakeControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	analogCalibrate(1);
+}

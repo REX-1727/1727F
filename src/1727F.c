@@ -81,13 +81,13 @@ void powerListener(void *params)
 			}
 			else if(partner.leftDpad.axisValue == JOY_RIGHT)
 			{
-				shooter.variables.power =38.5;
+				shooter.variables.power =39.5;
 				rightFlywheel.variables.power =22;
 				taskDelay(200);
 			}
 			else if(partner.leftDpad.axisValue == JOY_LEFT)
 			{
-				shooter.variables.power =31.5;
+				shooter.variables.power =32;
 				printf("debug");
 				taskDelay(200);
 			}
@@ -116,7 +116,7 @@ void powerListener(void *params)
 
 void intakeControl(void *params)
 {
-	bool intakeFlag;
+	bool intakeFlag = false;
 	while(true)
 	{
 		if(main.rightDpad.axisValue == JOY_UP)
@@ -151,6 +151,8 @@ void intakeControl(void *params)
 		{
 			motorSet(UPPER_INTAKE, 0);
 		}
+		printf("%d\r\n",analogReadCalibrated(1));
+		delay(20);
 	}
 }
 
@@ -172,6 +174,38 @@ void driveControl(void *params)
 	}
 }
 
+bool isLoaded()
+{
+	return false;
+}
+
+void loadBall(int maxLoadTime)
+{
+	unsigned long startTime = millis();
+
+	while(!ballLoaded || millis()< startTime+maxLoadTime)
+	{
+		motorSet(LOWER_INTAKE, -127);
+		motorSet(UPPER_INTAKE, 127);
+		ballLoaded = isLoaded();
+		delay(20);
+	}
+	motorSet(LOWER_INTAKE, 0);
+	motorSet(UPPER_INTAKE, 0);
+}
+
+void fireBall(int maxLoadTime, int maxFireTime)
+{
+	unsigned long startTime = millis();
+	while(ballLoaded || millis()<startTime+maxFireTime)
+	{
+		motorSet(LOWER_INTAKE, -127);
+		motorSet(UPPER_INTAKE, 127);
+		ballLoaded = isLoaded();
+		delay(20);
+	}
+	loadBall(maxLoadTime);
+}
 
 //PID HELPERS
 
@@ -203,13 +237,13 @@ void setGyroTarget(float target)
 	gyroTarget = target;
 }
 
-void setTargetForward(int inches)
+void setTargetForward(float inches)
 {
 	leftDriveTarget += (inches*360)/(M_PI*3.75);
 	rightDriveTarget += (inches*360)/(M_PI*3.75);
 }
 
-void setTargetRotate(int degrees)
+void setTargetRotate(float degrees)
 {
 	leftDriveTarget += degrees*4.3;
 	rightDriveTarget -= degrees*4.3;
@@ -250,16 +284,16 @@ int selectAuton()
 		switch(currentAuton)
 		{
 		case BLUE_FAR_SIDE_AUTONOMOUS:
-			lcdPrint(uart1,1,"BLUE far side");
+			lcdPrint(uart1,1,"BLUE Far Side");
 			break;
 		case BLUE_NEAR_SIDE_AUTONOMOUS:
-			lcdPrint(uart1,1,"BLUE near side");
+			lcdPrint(uart1,1,"BLUE Near Side");
 			break;
 		case RED_FAR_SIDE_AUTONOMOUS:
-			lcdPrint(uart1,1,"RED far side");
+			lcdPrint(uart1,1,"RED Far Side");
 			break;
 		case RED_NEAR_SIDE_AUTONOMOUS:
-			lcdPrint(uart1,1,"RED near side");
+			lcdPrint(uart1,1,"RED Near Side");
 			break;
 		case NO_AUTONOMOUS:
 			lcdPrint(uart1,1,"NO AUTON");
@@ -269,7 +303,7 @@ int selectAuton()
 		if(lcdReadButtons(uart1) == 1)
 		{
 			currentAuton -= 1;
-			delay(100);
+			delay(500);
 		}
 
 		else if(lcdReadButtons(uart1) == 2)
@@ -280,7 +314,7 @@ int selectAuton()
 		else if(lcdReadButtons(uart1) == 4)
 		{
 			currentAuton +=1;
-			delay(100);
+			delay(500);
 		}
 
 		if(currentAuton < 0)
@@ -288,7 +322,93 @@ int selectAuton()
 
 		else if(currentAuton > 4)
 			currentAuton = 4;
+		delay(20);
 	}
 	return 4;
 }
 
+void blueFarSide()
+{
+	setTargetRotate(41);
+	delay(700);
+	setTargetForward(70);
+	loadBall(3000);
+	shooter.variables.power =35;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(32.5);
+	delay(2000);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = 0;
+	setTargetRotate(-18.5);
+	delay(700);
+	setTargetForward(34);
+	loadBall(3000);
+	setTargetRotate(26.5);
+	shooter.variables.power =33;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(2000);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = 0;
+	setTargetRotate(-71.5);
+	delay(1000);
+	setTargetForward(24);
+	loadBall(1000);
+
+
+}
+
+void blueNearSide()
+{
+
+}
+
+void redFarSide()
+{
+	setTargetRotate(-41);
+	delay(700);
+	setTargetForward(70);
+	loadBall(3000);
+	shooter.variables.power =35;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(-32.5);
+	delay(2000);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = 0;
+	setTargetRotate(18.5);
+	delay(700);
+	setTargetForward(34);
+	loadBall(3000);
+	setTargetRotate(-26.5);
+	shooter.variables.power =33;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(2000);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	fireBall(500,500);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = 0;
+	setTargetRotate(71.5);
+	delay(1000);
+	setTargetForward(24);
+	loadBall(1000);
+
+
+}
+
+void redNearSide()
+{
+
+}
