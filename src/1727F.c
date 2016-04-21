@@ -76,18 +76,16 @@ void powerListener(void *params)
 			else if(partner.leftDpad.axisValue == JOY_UP)
 			{
 				shooter.variables.power =48;
-				rightFlywheel.variables.power =26.5;
 				taskDelay(200);
 			}
 			else if(partner.leftDpad.axisValue == JOY_RIGHT)
 			{
-				shooter.variables.power =39.5;
-				rightFlywheel.variables.power =22;
+				shooter.variables.power =40.5;
 				taskDelay(200);
 			}
 			else if(partner.leftDpad.axisValue == JOY_LEFT)
 			{
-				shooter.variables.power =32;
+				shooter.variables.power =31.5;
 				printf("debug");
 				taskDelay(200);
 			}
@@ -151,23 +149,27 @@ void intakeControl(void *params)
 		{
 			motorSet(UPPER_INTAKE, 0);
 		}
-		printf("%d\r\n",ultrasonicGet(loadChecker));
+		//printf("%d\r\n",ultrasonicGet(loadChecker));
 		delay(20);
 	}
 }
 
 void driveControl(void *params)
 {
-
+	float leftPower;
+	float rightPower;
 
 	while(true)
 	{
-		motorSet(RB, -main.rightVertical.axisValue);
-		motorSet(LB, -main.leftVertical.axisValue);
-		motorSet(RF, -main.rightVertical.axisValue);
-		motorSet(LF, main.leftVertical.axisValue);
-		motorSet(RM, main.rightVertical.axisValue);
-		motorSet(LM, main.leftVertical.axisValue);
+		leftPower = (main.leftVertical.axisValue*(abs(main.leftVertical.axisValue))/(127.0*127.0))*127;
+		rightPower = (main.rightVertical.axisValue*(abs(main.rightVertical.axisValue))/(127.0*127.0))*127;
+		printf("%f    %f \r\n",leftPower,rightPower);
+		motorSet(RB, -rightPower);
+		motorSet(LB, -leftPower);
+		motorSet(RF, -rightPower);
+		motorSet(LF, leftPower);
+		motorSet(RM, rightPower);
+		motorSet(LM, leftPower);
 
 
 		taskDelay(20);
@@ -176,13 +178,14 @@ void driveControl(void *params)
 
 bool isLoaded()
 {
-	return (ultrasonicGet(loadChecker)<10);
+	int temp = ultrasonicGet(loadChecker);
+	return (temp<10 && temp!= 0);
 }
 
 void loadBall(int maxLoadTime)
 {
 	unsigned long startTime = millis();
-
+	ballLoaded = isLoaded();
 	while(!ballLoaded && millis()< startTime+maxLoadTime)
 	{
 		motorSet(LOWER_INTAKE, -127);
@@ -239,8 +242,8 @@ void setGyroTarget(float target)
 
 void setTargetForward(float inches)
 {
-	leftDriveTarget += (inches*360)/(M_PI*3.75);
-	rightDriveTarget += (inches*360)/(M_PI*3.75);
+	leftDriveTarget += (inches*360)/(M_PI*3.25);
+	rightDriveTarget += (inches*360)/(M_PI*3.25);
 }
 
 void setTargetRotate(float degrees)
@@ -330,45 +333,75 @@ int selectAuton()
 
 void blueFarSide()
 {
-	setTargetRotate(41);
-	delay(700);
+//	setTargetRotate(41);
+//	delay(700);
+//	setTargetForward(70);
+//	loadBall(3000);
+//	shooter.variables.power =35;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	setTargetRotate(32.5);
+//	delay(2000);
+//	shooter.variables.power =0;
+//	shooter.variables.powerRaw = 0;
+//	setTargetRotate(-18.5);
+//	delay(700);
+//	setTargetForward(34);
+//	loadBall(3000);
+//	setTargetRotate(26.5);
+//	shooter.variables.power =33;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	delay(2000);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	shooter.variables.power =0;
+//	shooter.variables.powerRaw = 0;
+//	setTargetRotate(-71.5);
+//	delay(1000);
+//	setTargetForward(24);
+//	loadBall(1000);
+
+
+//	shooter.variables.power =35;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	loadBall(2000);
+//	delay(1000);
+//	fireBall(1000,1000);
+//	delay(1000);
+//	fireBall(1000,1000);
+//	delay(1000);
+//	fireBall(1000,1000);
+//	delay(1000);
+
+
 	setTargetForward(70);
-	loadBall(3000);
-	shooter.variables.power =35;
-	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	setTargetRotate(32.5);
-	delay(2000);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	shooter.variables.power =0;
-	shooter.variables.powerRaw = 0;
-	setTargetRotate(-18.5);
-	delay(700);
-	setTargetForward(34);
-	loadBall(3000);
-	setTargetRotate(26.5);
-	shooter.variables.power =33;
-	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	delay(2000);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	shooter.variables.power =0;
-	shooter.variables.powerRaw = 0;
-	setTargetRotate(-71.5);
-	delay(1000);
-	setTargetForward(24);
-	loadBall(1000);
-
-
+	delay(10000);
 }
 
 void blueNearSide()
 {
-
+	setTargetRotate(53);
+	delay(500);
+	setTargetForward(60);
+	delay(2000);
+	setTargetRotate(127);
+	delay(750);
+	setTargetForward(12);
+	delay(750);
+	setTargetRotate(45);
+	delay(500);
+	motorSet(LOWER_INTAKE, 127);
+	setTargetForward(34);
+	delay(1000);
+	motorSet(UPPER_INTAKE,127);
+	motorSet(LOWER_INTAKE, -127);
+	setTargetRotate(-45);
+	delay(500);
+	setTargetForward(24);
+	delay(3000);
+	motorSet(UPPER_INTAKE,0);
+	motorSet(LOWER_INTAKE, 0);
 }
 
 void redFarSide()
@@ -411,5 +444,22 @@ void redFarSide()
 
 void redNearSide()
 {
-
+	setTargetRotate(-53);
+	delay(500);
+	setTargetForward(60);
+	delay(2000);
+	setTargetRotate(-127);
+	delay(750);
+	setTargetForward(12);
+	delay(750);
+	setTargetRotate(-45);
+	delay(500);
+	motorSet(LOWER_INTAKE, 127);
+	setTargetForward(34);
+	delay(1000);
+	motorSet(LOWER_INTAKE, -127);
+	setTargetRotate(45);
+	delay(500);
+	setTargetForward(24);
+	delay(2000);
 }

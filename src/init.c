@@ -96,5 +96,5 @@ void initialize() {
 	intake_task = taskCreate(intakeControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	//analogCalibrate(1);
 	selectedAuton = selectAuton();
-
+	lcdPrint(uart1,1,"autonomous Selected");
 }

@@ -81,9 +81,7 @@ void autonomous() {
 //	rightFlywheel.variables.power =0;
 //	rightFlywheel.variables.powerRaw =0;
 //	shooter.variables.powerRaw = 0;
-
-//	setTargetForward(36);
-	fireBall(10000,10000);
+	blueFarSide();
 
 	taskSuspend(leftDrive_autonomous_task);
 	taskSuspend(rightDrive_autonomous_task);
