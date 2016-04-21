@@ -81,7 +81,27 @@ void autonomous() {
 //	rightFlywheel.variables.power =0;
 //	rightFlywheel.variables.powerRaw =0;
 //	shooter.variables.powerRaw = 0;
-	blueFarSide();
+	lcdSetBacklight(uart1,false);
+
+	switch(selectedAuton)
+	{
+	case BLUE_FAR_SIDE_AUTONOMOUS:
+		blueFarSide();
+		break;
+	case BLUE_NEAR_SIDE_AUTONOMOUS:
+		blueFarSide();
+		break;
+	case RED_FAR_SIDE_AUTONOMOUS:
+		blueFarSide();
+		break;
+	case RED_NEAR_SIDE_AUTONOMOUS:
+		blueFarSide();
+		break;
+	case NO_AUTONOMOUS:
+		blueFarSide();
+		break;
+	}
+	blueNearSide();
 
 	taskSuspend(leftDrive_autonomous_task);
 	taskSuspend(rightDrive_autonomous_task);
