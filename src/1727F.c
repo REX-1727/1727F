@@ -45,6 +45,7 @@ void velocityReader(void *ignore)
 void powerListener(void *params)
 {
 
+	driveMultiplier = 1;
 	if(true)
 	{
 		while(true)
@@ -100,6 +101,17 @@ void powerListener(void *params)
 				shooter.variables.power =0;
 				rightFlywheel.variables.power =0;
 				taskDelay(200);
+			}
+
+			if(main.rightDpad.axisValue == JOY_RIGHT)
+			{
+				driveMultiplier = .8;
+				delay(200);
+			}
+			else if(main.rightDpad.axisValue == JOY_LEFT)
+			{
+				driveMultiplier = 1;
+				delay(200);
 			}
 
 			shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
@@ -161,9 +173,9 @@ void driveControl(void *params)
 
 	while(true)
 	{
-		leftPower = (main.leftVertical.axisValue*(abs(main.leftVertical.axisValue))/(127.0*127.0))*127;
-		rightPower = (main.rightVertical.axisValue*(abs(main.rightVertical.axisValue))/(127.0*127.0))*127;
-//		printf("%f    %f \r\n",leftPower,rightPower);
+		leftPower = ((main.leftVertical.axisValue*(abs(main.leftVertical.axisValue)))*driveMultiplier/(127.0*127.0))*127;
+		rightPower = (main.rightVertical.axisValue*(abs(main.rightVertical.axisValue))*driveMultiplier/(127.0*127.0))*127;
+		//		printf("%f    %f \r\n",leftPower,rightPower);
 		motorSet(RB, -rightPower);
 		motorSet(LB, -leftPower);
 		motorSet(RF, -rightPower);
@@ -301,6 +313,9 @@ int selectAuton()
 		case NO_AUTONOMOUS:
 			lcdPrint(uart1,1,"NO AUTON");
 			break;
+		case PROGRAMMING_SKILLS:
+			lcdPrint(uart1,1,"PROG Skills");
+			break;
 		}
 
 		if(lcdReadButtons(uart1) == 1)
@@ -324,8 +339,8 @@ int selectAuton()
 		if(currentAuton < 0)
 			currentAuton = 0;
 
-		else if(currentAuton > 4)
-			currentAuton = 4;
+		else if(currentAuton > 5)
+			currentAuton = 5;
 		delay(20);
 	}
 	return 4;
@@ -334,61 +349,114 @@ int selectAuton()
 void blueFarSide()
 {
 	// FIRING AUTON
-//	setTargetRotate(41);
-//	delay(700);
-//	setTargetForward(70);
-//	loadBall(3000);
-//	shooter.variables.power =35;
-//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-//	setTargetRotate(32.5);
-//	delay(2000);
-//	shooter.variables.power =0;
-//	shooter.variables.powerRaw = 0;
-//	setTargetRotate(-18.5);
-//	delay(700);
-//	setTargetForward(34);
-//	loadBall(3000);
-//	setTargetRotate(26.5);
-//	shooter.variables.power =33;
-//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-//	delay(2000);
-//	fireBall(500,500);
-//	fireBall(500,500);
-//	fireBall(500,500);
-//	fireBall(500,500);
-//	shooter.variables.power =0;
-//	shooter.variables.powerRaw = 0;
-//	setTargetRotate(-71.5);
-//	delay(1000);
-//	setTargetForward(24);
-//	loadBall(1000);
+	//	setTargetRotate(41);
+	//	delay(700);
+	//	setTargetForward(70);
+	//	loadBall(3000);
+	//	shooter.variables.power =35;
+	//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	//	setTargetRotate(32.5);
+	//	delay(2000);
+	//	shooter.variables.power =0;
+	//	shooter.variables.powerRaw = 0;
+	//	setTargetRotate(-18.5);
+	//	delay(700);
+	//	setTargetForward(34);
+	//	loadBall(3000);
+	//	setTargetRotate(26.5);
+	//	shooter.variables.power =33;
+	//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	//	delay(2000);
+	//	fireBall(500,500);
+	//	fireBall(500,500);
+	//	fireBall(500,500);
+	//	fireBall(500,500);
+	//	shooter.variables.power =0;
+	//	shooter.variables.powerRaw = 0;
+	//	setTargetRotate(-71.5);
+	//	delay(1000);
+	//	setTargetForward(24);
+	//	loadBall(1000);
 
 
 	//  HOARDING AUTON
-//	setTargetRotate(41);
-//	delay(700);
-//	setTargetForward(70);
-//	motorSet(LOWER_INTAKE, 127);
-//	delay(3000);
-//	setTargetRotate(32.5);
-//	delay(2000);
-//	setTargetRotate(-18.5);
-//	delay(700);
-//	setTargetForward(34);
-//	delay(2000);
-//	setTargetRotate(26.5);
-//	delay(2000);
-//	setTargetRotate(-71.5);
+	//	setTargetRotate(41);
+	//	delay(700);
+	//	setTargetForward(70);
+	//	motorSet(LOWER_INTAKE, 127);
+	//	delay(3000);
+	//	setTargetRotate(32.5);
+	//	delay(2000);
+	//	setTargetRotate(-18.5);
+	//	delay(700);
+	//	setTargetForward(34);
+	//	delay(2000);
+	//	setTargetRotate(26.5);
+	//	delay(2000);
+	//	setTargetRotate(-71.5);
+	//	delay(1000);
+	//	setTargetForward(24);
+	//	motorSet(LOWER_INTAKE, -127);
+	//	motorSet(UPPER_INTAKE, 127);
+	//	delay(2000);
+
+//	setTargetRotate(27);
 //	delay(1000);
-//	setTargetForward(24);
-//	motorSet(LOWER_INTAKE, -127);
-//	motorSet(UPPER_INTAKE, 127);
+//	setTargetForward(53.6);
+//	shooter.variables.power =41;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 //	delay(2000);
+//	setTargetRotate(34);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	setTargetRotate(-14.2);
+//	delay(500);
+//	shooter.variables.power =38;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	setTargetForward(17);
+//	loadBall(3000);
+//	delay(250);
+//	setTargetRotate(21.1);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
 
-	setTargetRotate(26.5);
+	shooter.variables.power =48;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(2000);
+	fireBall(1000,1000);
 	delay(1000);
-	//setTargetForward(100);
-
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(7.69);
+	delay(500);
+	setTargetForward(70);
+	loadBall(3000);
+	setTargetRotate(-31);
+	delay(500);
+	setTargetForward(12);
+	delay(1000);
+	setTargetRotate(90);
+	delay(500);
+	setTargetForward(36);
 
 }
 
@@ -419,38 +487,97 @@ void blueNearSide()
 
 void redFarSide()
 {
-	setTargetRotate(-41);
+//	setTargetRotate(-41);
+//	delay(1000);
+//	setTargetForward(70);
+//	loadBall(3000);
+//	shooter.variables.power =35;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	setTargetRotate(-34);
+//	delay(2000);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	shooter.variables.power =0;
+//	shooter.variables.powerRaw = 0;
+//	setTargetRotate(14.2);
+//	delay(700);
+//	setTargetForward(34);
+//	loadBall(3000);
+//	setTargetRotate(-26.5);
+//	shooter.variables.power =33;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	delay(2000);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	fireBall(500,500);
+//	shooter.variables.power =0;
+//	shooter.variables.powerRaw = 0;
+//	setTargetRotate(71.5);
+//	delay(1000);
+//	setTargetForward(24);
+//	loadBall(1000);
+
+//	setTargetRotate(-27);
+//	delay(1000);
+//	setTargetForward(53.6);
+//	shooter.variables.power =41;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	delay(2000);
+//	setTargetRotate(-34);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	setTargetRotate(14.2);
+//	delay(500);
+//	shooter.variables.power =38;
+//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+//	setTargetForward(17);
+//	loadBall(3000);
+//	delay(250);
+//	setTargetRotate(-21.1);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+//	fireBall(2000,2000);
+//	delay(500);
+
+
+	shooter.variables.power =48;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(2000);
+	fireBall(1000,1000);
 	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(-7.69);
+	delay(500);
 	setTargetForward(70);
 	loadBall(3000);
-	shooter.variables.power =35;
-	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	setTargetRotate(-32.5);
-	delay(2000);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	shooter.variables.power =0;
-	shooter.variables.powerRaw = 0;
-	setTargetRotate(18.5);
-	delay(700);
-	setTargetForward(34);
-	loadBall(3000);
-	setTargetRotate(-26.5);
-	shooter.variables.power =33;
-	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-	delay(2000);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	fireBall(500,500);
-	shooter.variables.power =0;
-	shooter.variables.powerRaw = 0;
-	setTargetRotate(71.5);
+	setTargetRotate(31);
+	delay(500);
+	setTargetForward(12);
 	delay(1000);
-	setTargetForward(24);
-	loadBall(1000);
+	setTargetRotate(-90);
+	delay(500);
+	setTargetForward(36);
 
 
 }
@@ -475,4 +602,30 @@ void redNearSide()
 	delay(500);
 	setTargetForward(24);
 	delay(2000);
+}
+
+void programmingSkills()
+{
+	//TODO:RETURN TO REAL OPERATION
+	shooter.variables.power = 39;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(2000);
+	motorSet(LOWER_INTAKE, -127);
+	motorSet(UPPER_INTAKE, 127);
+	delay(22000);
+	shooter.variables.power = 0;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(95);
+	delay(1000);
+	setTargetForward(120);
+	delay(5000);
+	shooter.variables.power = 39;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	setTargetRotate(-85);
+	delay(30000);
+
+
+
+
+
 }

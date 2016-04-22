@@ -26,7 +26,7 @@
 #define RED_FAR_SIDE_AUTONOMOUS		2
 #define RED_NEAR_SIDE_AUTONOMOUS	3
 #define NO_AUTONOMOUS				4
-
+#define PROGRAMMING_SKILLS			5
 
 #define FLYWHEEL_CIRCUMFERENCE (4*3.1415926535)
 
@@ -97,6 +97,8 @@ void loadBall(int maxLoadTime);
 
 void fireBall(int maxLoadTime, int maxFireTime);
 
+void programmingSkills();
+
 bool twoJoysticks;
 
 flywheel rightFlywheel;
@@ -136,5 +138,7 @@ int rightDriveTarget;
 int selectedAuton;
 
 bool ballLoaded;
+
+float driveMultiplier;
 
 #endif /* _1727B_H_ */

@@ -99,6 +99,9 @@ void autonomous() {
 		break;
 	case NO_AUTONOMOUS:
 		break;
+	case PROGRAMMING_SKILLS:
+		programmingSkills();
+		break;
 	}
 
 	taskSuspend(leftDrive_autonomous_task);

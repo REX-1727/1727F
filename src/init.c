@@ -77,7 +77,7 @@ void initialize() {
 
 	rightDriveEncoder = encoderInit(1,2,false);
 
-	pidParams shooterParams = {getVel,getPower,-1,0.013,0,0.12,{-5, 6, -9, 3}};
+	pidParams shooterParams = {getVel,getPower,-1,0.002,0,.055,{-5, 6, -9, 3}};
 
 	pidParams leftDriveParams = {getLeftDrive, getLeftDriveTarget, -1, .5, 0, 0.7, {8, -10, 0, 0}};
 
