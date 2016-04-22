@@ -34,7 +34,7 @@ void velocityReader(void *ignore)
 		rightFlywheel.variables.velocity = (rightFlywheel.variables.velocityRaw*(FLYWHEEL_CIRCUMFERENCE/12)/360.0);
 		encoderReset(shooterEncoder);
 
-		//printf("%f\n\r",shooter.variables.velocity);
+		printf("%f\n\r",shooter.variables.velocity);
 
 		taskDelayUntil(&startTime, MOTOR_REFRESH_TIME);
 	}
@@ -80,7 +80,7 @@ void powerListener(void *params)
 			}
 			else if(partner.leftDpad.axisValue == JOY_RIGHT)
 			{
-				shooter.variables.power =40.5;
+				shooter.variables.power =40;
 				taskDelay(200);
 			}
 			else if(partner.leftDpad.axisValue == JOY_LEFT)
@@ -163,7 +163,7 @@ void driveControl(void *params)
 	{
 		leftPower = (main.leftVertical.axisValue*(abs(main.leftVertical.axisValue))/(127.0*127.0))*127;
 		rightPower = (main.rightVertical.axisValue*(abs(main.rightVertical.axisValue))/(127.0*127.0))*127;
-		printf("%f    %f \r\n",leftPower,rightPower);
+//		printf("%f    %f \r\n",leftPower,rightPower);
 		motorSet(RB, -rightPower);
 		motorSet(LB, -leftPower);
 		motorSet(RF, -rightPower);
@@ -333,6 +333,7 @@ int selectAuton()
 
 void blueFarSide()
 {
+	// FIRING AUTON
 //	setTargetRotate(41);
 //	delay(700);
 //	setTargetForward(70);
@@ -363,26 +364,38 @@ void blueFarSide()
 //	loadBall(1000);
 
 
-//	shooter.variables.power =35;
-//	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
-//	loadBall(2000);
+	//  HOARDING AUTON
+//	setTargetRotate(41);
+//	delay(700);
+//	setTargetForward(70);
+//	motorSet(LOWER_INTAKE, 127);
+//	delay(3000);
+//	setTargetRotate(32.5);
+//	delay(2000);
+//	setTargetRotate(-18.5);
+//	delay(700);
+//	setTargetForward(34);
+//	delay(2000);
+//	setTargetRotate(26.5);
+//	delay(2000);
+//	setTargetRotate(-71.5);
 //	delay(1000);
-//	fireBall(1000,1000);
-//	delay(1000);
-//	fireBall(1000,1000);
-//	delay(1000);
-//	fireBall(1000,1000);
-//	delay(1000);
+//	setTargetForward(24);
+//	motorSet(LOWER_INTAKE, -127);
+//	motorSet(UPPER_INTAKE, 127);
+//	delay(2000);
+
+	setTargetRotate(26.5);
+	delay(1000);
+	//setTargetForward(100);
 
 
-	setTargetForward(70);
-	delay(10000);
 }
 
 void blueNearSide()
 {
-	setTargetRotate(53);
-	delay(500);
+	setTargetRotate(50);
+	delay(1000);
 	setTargetForward(60);
 	delay(2000);
 	setTargetRotate(127);
@@ -407,7 +420,7 @@ void blueNearSide()
 void redFarSide()
 {
 	setTargetRotate(-41);
-	delay(700);
+	delay(1000);
 	setTargetForward(70);
 	loadBall(3000);
 	shooter.variables.power =35;
@@ -444,7 +457,7 @@ void redFarSide()
 
 void redNearSide()
 {
-	setTargetRotate(-53);
+	setTargetRotate(-50);
 	delay(500);
 	setTargetForward(60);
 	delay(2000);

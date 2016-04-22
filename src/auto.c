@@ -89,19 +89,17 @@ void autonomous() {
 		blueFarSide();
 		break;
 	case BLUE_NEAR_SIDE_AUTONOMOUS:
-		blueFarSide();
+		blueNearSide();
 		break;
 	case RED_FAR_SIDE_AUTONOMOUS:
-		blueFarSide();
+		redFarSide();
 		break;
 	case RED_NEAR_SIDE_AUTONOMOUS:
-		blueFarSide();
+		redNearSide();
 		break;
 	case NO_AUTONOMOUS:
-		blueFarSide();
 		break;
 	}
-	blueNearSide();
 
 	taskSuspend(leftDrive_autonomous_task);
 	taskSuspend(rightDrive_autonomous_task);

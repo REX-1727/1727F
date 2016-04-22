@@ -53,7 +53,7 @@
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 void operatorControl() {
-	lcdSetBacklight(uart1,false);
+	lcdSetBacklight(uart1,true);
 	taskSuspend(leftDrive_autonomous_task);
 	taskSuspend(rightDrive_autonomous_task);
 	twoJoysticks = isJoystickConnected(2);//check for second joystick
@@ -64,6 +64,8 @@ void operatorControl() {
 	taskResume(drive_task);
 	taskResume(intake_task);
 	while (1) {
+		lcdPrint(uart1,1, "%f", shooter.variables.power);
 		delay(20);
+
 	}
 }
