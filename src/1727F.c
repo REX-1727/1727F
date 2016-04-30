@@ -436,6 +436,7 @@ void blueFarSide()
 	shooter.variables.power =48;
 	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 	delay(2000);
+	loadBall(1000);
 	fireBall(1000,1000);
 	delay(1000);
 	fireBall(1000,1000);
@@ -462,27 +463,67 @@ void blueFarSide()
 
 void blueNearSide()
 {
-	setTargetRotate(50);
+//	setTargetRotate(50);
+//	delay(1000);
+//	setTargetForward(60);
+//	delay(2000);
+//	setTargetRotate(127);
+//	delay(750);
+//	setTargetForward(12);
+//	delay(750);
+//	setTargetRotate(45);
+//	delay(500);
+//	motorSet(LOWER_INTAKE, 127);
+//	setTargetForward(34);
+//	delay(1000);
+//	motorSet(UPPER_INTAKE,127);
+//	motorSet(LOWER_INTAKE, -127);
+//	setTargetRotate(-45);
+//	delay(500);
+//	setTargetForward(24);
+//	delay(3000);
+//	motorSet(UPPER_INTAKE,0);
+//	motorSet(LOWER_INTAKE, 0);
+
+	shooter.variables.power =48;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(4000);
+	loadBall(1000);
+	fireBall(1000,1000);
 	delay(1000);
-	setTargetForward(60);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+
+	setTargetRotate(6);
+	delay(300);
+	setTargetForward(51);
+	delay(2500);
+	setTargetRotate(90);
+	delay(750);
+	setTargetForward(35);
+	delay(1250);
+	setTargetRotate(135);
+	delay(1000);
+	motorSet(LOWER_INTAKE,127);
+	setTargetForward(36);
 	delay(2000);
-	setTargetRotate(127);
-	delay(750);
-	setTargetForward(12);
-	delay(750);
-	setTargetRotate(45);
+	setTargetForward(-12);
 	delay(500);
-	motorSet(LOWER_INTAKE, 127);
-	setTargetForward(34);
-	delay(1000);
-	motorSet(UPPER_INTAKE,127);
-	motorSet(LOWER_INTAKE, -127);
-	setTargetRotate(-45);
+	setTargetRotate(-90);
 	delay(500);
-	setTargetForward(24);
-	delay(3000);
-	motorSet(UPPER_INTAKE,0);
-	motorSet(LOWER_INTAKE, 0);
+//	delay(2000);
+//	setTargetRotate(90);
+//	delay(500);
+//	setTargetForward(-12);
+//	delay(750);
+//	setTargetForward(18);
+//	delay(1000);
 }
 
 void redFarSide()
@@ -557,6 +598,7 @@ void redFarSide()
 	shooter.variables.power =48;
 	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 	delay(2000);
+	loadBall(1000);
 	fireBall(1000,1000);
 	delay(1000);
 	fireBall(1000,1000);
@@ -584,29 +626,58 @@ void redFarSide()
 
 void redNearSide()
 {
-	setTargetRotate(-50);
-	delay(500);
-	setTargetForward(60);
-	delay(2000);
-	setTargetRotate(-127);
-	delay(750);
-	setTargetForward(12);
-	delay(750);
-	setTargetRotate(-45);
-	delay(500);
-	motorSet(LOWER_INTAKE, 127);
-	setTargetForward(34);
+//	setTargetRotate(-50);
+//	delay(500);
+//	setTargetForward(60);
+//	delay(2000);
+//	setTargetRotate(-127);
+//	delay(750);
+//	setTargetForward(12);
+//	delay(750);
+//	setTargetRotate(-45);
+//	delay(500);
+//	motorSet(LOWER_INTAKE, 127);
+//	setTargetForward(34);
+//	delay(1000);
+//	motorSet(LOWER_INTAKE, -127);
+//	setTargetRotate(45);
+//	delay(500);
+//	setTargetForward(24);
+//	delay(2000);
+	shooter.variables.power =48;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+	delay(4000);
+	loadBall(1000);
+	fireBall(1000,1000);
 	delay(1000);
-	motorSet(LOWER_INTAKE, -127);
-	setTargetRotate(45);
-	delay(500);
-	setTargetForward(24);
+	fireBall(1000,1000);
+	delay(1000);
+	fireBall(1000,1000);
+	delay(1000);
+	shooter.variables.power =0;
+	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
+
+	setTargetRotate(-6);
+	delay(300);
+	setTargetForward(51);
+	delay(2500);
+	setTargetRotate(-90);
+	delay(750);
+	setTargetForward(35);
+	delay(1250);
+	setTargetRotate(-135);
+	delay(1000);
+	motorSet(LOWER_INTAKE,127);
+	setTargetForward(36);
 	delay(2000);
+	setTargetForward(-12);
+	delay(500);
+	setTargetRotate(90);
 }
 
 void programmingSkills()
 {
-	//TODO:RETURN TO REAL OPERATION
+
 	shooter.variables.power = 39;
 	shooter.variables.powerRaw = (shooter.variables.power)*(12/FLYWHEEL_CIRCUMFERENCE)*360;
 	delay(2000);
